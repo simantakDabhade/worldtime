@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
               ),
 
               Text(
-                '${data["hours"]}:${data["minutes"]}',
+                data["timeString"],
                 style: TextStyle(
                     fontSize: 88.0,
                     letterSpacing: 8,

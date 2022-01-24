@@ -9,9 +9,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Map data = {};
   @override
   Widget build(BuildContext context) {
-    Map data = ModalRoute.of(context)?.settings.arguments as Map;
+    // only if the data is empty only then do we change it
+    if (data.isEmpty) {
+      data = ModalRoute.of(context)?.settings.arguments as Map;
+    }
+
     print(data);
 
     return Scaffold(
@@ -24,8 +29,16 @@ class _HomeState extends State<Home> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/location");
+                onPressed: () async {
+                  dynamic result =
+                      await Navigator.pushNamed(context, "/location");
+                  setState(() {
+                    data = {
+                      "timeString": result["timeString"],
+                      "flag": result["flag"],
+                      "location": result["location"],
+                    };
+                  });
                 },
                 child: Text("edit location"),
                 style: ButtonStyle(
@@ -36,12 +49,23 @@ class _HomeState extends State<Home> {
                 height: 40.0,
               ),
 
+              // this is the country photo
+              CircleAvatar(
+                backgroundImage: NetworkImage(
+                    "https://raw.githubusercontent.com/iamshaunjp/flutter-beginners-tutorial/lesson-34/world_time_app/assets/${data["flag"]}"),
+                radius: 60.0,
+              ),
+
+              SizedBox(
+                height: 40.0,
+              ),
+
               // This is the row for the location name
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Singapore",
+                    data["location"],
                     style: TextStyle(fontSize: 28.0, letterSpacing: 2.0),
                   )
                 ],

@@ -19,13 +19,16 @@ class _LoadingState extends State<Loading> {
     //creating the timeEngine instance
     WorldTime timeEngine = WorldTime(
         location: "Singapore",
-        flagUrl: "singapore.png",
+        flag: "singapore.png",
         queryUrl: "Asia/Singapore");
 
     time_string = await timeEngine.getData();
 
-    Navigator.pushReplacementNamed(context, "/home",
-        arguments: {"timeString": time_string, "flagUrl": timeEngine.flagUrl});
+    Navigator.pushReplacementNamed(context, "/home", arguments: {
+      "timeString": time_string,
+      "flag": timeEngine.flag,
+      "location": timeEngine.location
+    });
     print(time_string);
   }
 
